@@ -1,1 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Finlay — The Bog & The Smell</title>
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tufte-css@1.8.0/tufte.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root{ --panel:#e7fbe7; --bg:#0c3f0c; --ink:#f7fff7; --muted:rgba(255,255,255,0.08);} 
+    html,body{height:100%; margin:0;}
+    body{
+      font-family:Inter,system-ui; background:var(--bg); color:var(--ink);
+      -webkit-font-smoothing:antialiased; display:flex; align-items:flex-start; justify-content:center;
+      background: radial-gradient(circle at 20% 20%, #144d14, #072d07 80%);
+      overflow-x:hidden; position:relative;
+    }
+
+    #mist{
+      position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;
+      background:radial-gradient(circle at 50% 50%, rgba(200,255,200,0.06) 0%, rgba(180,180,180,0) 70%);
+      mix-blend-mode:screen; opacity:0.6;
+      animation: drift 30s linear infinite, hueShift 60s linear infinite;
+    }
+
+    @keyframes drift {
+      0% { transform:translate(0,0) scale(1); opacity:0.4; }
+      50% { transform:translate(-10%, -5%) scale(1.2); opacity:0.6; }
+      100% { transform:translate(0,0) scale(1); opacity:0.4; }
+    }
+
+    @keyframes hueShift {
+      0% { filter:hue-rotate(0deg); }
+      50% { filter:hue-rotate(40deg); }
+      100% { filter:hue-rotate(0deg); }
+    }
+
+    main.tufte{ max-width:72ch; width:100%; padding:3rem 2rem; position:relative; z-index:2; }
+
+    header.site{ position:sticky; top:0; background:rgba(0,0,0,0.1); padding:1rem 0; backdrop-filter: blur(8px);
+      margin-bottom:1rem; border-bottom:1px solid var(--muted); box-shadow:0 2px 4px rgba(0,0,0,0.3); }
+
+    h1.title{ font-size:clamp(1.8rem,3.4vw,2.6rem); margin:0 0 0.25rem 0; color:#caffca; font-weight:800; text-shadow:0 0 6px rgba(255,255,255,0.2); }
+    .lead{ opacity:0.95; color:rgba(255,255,255,0.9); }
+
+    .node{ min-height:60vh; padding:2rem 0; display:none; }
+    .node.active{ display:block; }
+
+    .prose p{ font-size:1.05rem; line-height:1.5; margin:0.8rem 0; }
+    .choices{ margin-top:1.25rem; display:flex; gap:0.8rem; flex-wrap:wrap; justify-content:center; }
+    .btn{ background:#2f7f2f; border:none; color:white; padding:0.8rem 1.1rem; border-radius:8px; cursor:pointer; font-weight:600; box-shadow:0 2px 4px rgba(0,0,0,0.4); transition:all 0.25s ease; }
+    .btn:hover{ background:#3fa83f; transform:scale(1.05); }
+    .btn.secondary{ background:#4f4f4f; }
+
+    .whisper{ font-style:italic; opacity:0.85; color:rgba(255,255,255,0.85); text-shadow:0 0 4px rgba(255,255,255,0.2); }
+
+    .ending.somber{ background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.55)); padding:1.25rem; border-radius:10px; box-shadow:inset 0 0 15px rgba(0,0,0,0.4); }
+
+    footer.small{ margin-top:2rem; color:rgba(255,255,255,0.6); font-size:0.9rem; text-align:center; }
+
+    @media (max-width:720px){ main.tufte{ padding:2rem; } .choices{ flex-direction:column; } }
+  </style>
+</head>
+<body>
+  <div id="mist"></div>
+
+  <audio id="bgAudio" src="https://cdn.pixabay.com/download/audio/2022/08/19/audio_7310aaf616.mp3?filename=ambient-forest-loop-11073.mp3" loop></audio>
+  <audio id="whisperAudio" src="https://cdn.pixabay.com/download/audio/2022/10/21/audio_3c46a241c3.mp3?filename=whisper-11417.mp3"></audio>
+  <audio id="buttonAudio" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_1b2a915741.mp3?filename=click-124467.mp3"></audio>
+
+  <main class="tufte">
+    <header class="site">
+      <h1 class="title">Finlay — The Bog & The Smell</h1>
+      <div class="lead">An interactive piece. Make choices — watch the night fold.</div>
+    </header>
+
+    <!-- Story sections here (same as before) -->
+
+    <footer class="small">Built with Tufte CSS + GSAP — green background, whisper sounds, drifting bog mist that shifts between green and grey.</footer>
+  </main>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    function playSound(id){ const a=document.getElementById(id); if(a){ a.currentTime=0; a.play(); } }
+
+    function show(nodeId){
+      document.querySelectorAll('.node').forEach(n=>n.classList.remove('active'));
+      const node=document.getElementById(nodeId);
+      if(node) node.classList.add('active');
+      gsap.fromTo(node.querySelectorAll('.prose > p, .prose > div'),{y:30,autoAlpha:0},{y:0,autoAlpha:1,duration:0.7,stagger:0.12,ease:'power3.out'});
+      if(node.querySelector('.whisper')) playSound('whisperAudio');
+      node.querySelectorAll('.whisper').forEach(w=>{
+        gsap.to(w,{x:()=>gsap.utils.random(-6,6),y:()=>gsap.utils.random(-3,3),repeat:-1,yoyo:true,duration:gsap.utils.random(0.9,1.8),ease:'sine.inOut'});
+      });
+      node.setAttribute('tabindex','-1'); node.focus();
+    }
+
+    document.querySelectorAll('[data-go]').forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        playSound('buttonAudio');
+        const dest=e.currentTarget.dataset.go; show(dest);
+      });
+    });
+
+    gsap.fromTo('.title',{y:-8,autoAlpha:0},{y:0,autoAlpha:1,duration:0.6});
+
+    window.addEventListener('click',()=>{
+      const bg=document.getElementById('bgAudio');
+      if(bg.paused){ bg.volume=0.3; bg.play(); }
+    },{once:true});
+  </script>
+</body>
+</html>
