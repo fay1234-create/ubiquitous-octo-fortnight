@@ -1,14 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finlay — The Bog & The Smell</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tufte-css@1.8.0/tufte.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <style>
     body {
-      font-family: Inter, system-ui;
+      font-family: 'Inter', sans-serif;
       background: #0c3f0c;
       color: #f7fff7;
       margin: 0;
@@ -17,21 +17,65 @@
       position: relative;
     }
     #mist {
-      position: fixed; inset:0; pointer-events:none; z-index:1;
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
       background: radial-gradient(circle at 30% 30%, rgba(200,255,200,0.06) 0%, rgba(180,180,180,0) 40%),
                   radial-gradient(circle at 70% 70%, rgba(210,255,210,0.04) 0%, rgba(180,180,180,0) 60%);
       mix-blend-mode: screen;
-      opacity:0.55;
+      opacity: 0.55;
       filter: hue-rotate(0deg) blur(8px) contrast(1);
       transition: opacity 0.5s, filter 0.5s;
     }
-    .node { display:none; min-height:60vh; padding:1rem 0; position:relative; z-index:2; }
-    .node.active { display:block; }
-    .choices { margin-top:1rem; display:flex; gap:0.5rem; flex-wrap:wrap; }
-    .btn { background:#2f7f2f; border:none; color:white; padding:0.6rem 1rem; border-radius:6px; cursor:pointer; }
-    .btn:hover { background:#3fa83f; }
-    .btn.secondary{ background:#4f4f4f; }
-    .whisper{ font-style:italic; opacity:0.9; color:rgba(255,255,255,0.9); }
+    .node {
+      display: none;
+      min-height: 60vh;
+      padding: 1rem 0;
+      position: relative;
+      z-index: 2;
+    }
+    .node.active {
+      display: block;
+    }
+    .choices {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      background: #2f7f2f;
+      border: none;
+      color: white;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #3fa83f;
+    }
+    .btn.secondary {
+      background: #4f4f4f;
+    }
+    .whisper {
+      font-style: italic;
+      opacity: 0.9;
+      color: rgba(255,255,255,0.9);
+    }
+    .story-image {
+      width: 100%;
+      max-width: 600px;
+      margin: 1rem 0;
+      border-radius: 8px;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+    .story-image.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
   </style>
 </head>
 <body>
@@ -50,6 +94,7 @@
 
   <!-- Intro -->
   <section id="intro" class="node active">
+    <img class="story-image" src="https://cdn.pixabay.com/photo/2017/01/20/00/30/mist-1999454_1280.jpg" alt="Misty bog scene">
     <p>You meet Finlay at the edge of town. Folks say he once fell into a bog years ago and came out changed — not just his boots, but his scent.</p>
     <p class="whisper">"He stinks everywhere he goes," someone mutters under their breath.</p>
     <div class="choices">
@@ -61,11 +106,10 @@
 
   <!-- Deodorant path -->
   <section id="deodorant" class="node">
+    <img class="story-image" src="https://cdn.pixabay.com/photo/2016/11/29/03/45/spray-1868116_1280.jpg" alt="Deodorant accident">
     <p>You give Finlay a new deodorant. He applies it carefully.</p>
-    <p>But while helping him, the spray accidentally hits his eye. He collapses.</p>
-    <div class="ending somber">
-      <p class="whisper">The town murmurs, "Oh no…"</p>
-    </div>
+    <p>But while helping him, the spray accidentally hits his eye. He collapses, blinking rapidly, tears streaming.</p>
+    <p class="whisper">The town murmurs, "Oh no…"</p>
     <div class="choices">
       <button class="btn secondary" data-go="intro">Return to start</button>
     </div>
@@ -73,11 +117,10 @@
 
   <!-- Run path -->
   <section id="run" class="node">
-    <p>You try to run. Finlay chases you, his stench growing stronger as your breath huffs.</p>
-    <p>You falter, eventually trapped by the overpowering smell.</p>
-    <div class="ending somber">
-      <p class="whisper">“It’s his smell,” someone whispers as you collapse.</p>
-    </div>
+    <img class="story-image" src="https://cdn.pixabay.com/photo/2016/02/19/11/19/run-1209276_1280.jpg" alt="Running away">
+    <p>You try to run. Finlay chases you, his stench growing stronger as your breath huffs. Panic claws at your chest.</p>
+    <p>You falter, eventually trapped by the overpowering smell. Nausea rises as you collapse.</p>
+    <p class="whisper">“It’s his smell,” someone whispers as you crumble to the ground.</p>
     <div class="choices">
       <button class="btn secondary" data-go="intro">Return to start</button>
     </div>
@@ -85,7 +128,9 @@
 
   <!-- Befriend path -->
   <section id="befriend" class="node">
+    <img class="story-image" src="https://cdn.pixabay.com/photo/2015/10/12/15/42/child-984417_1280.jpg" alt="Befriending Finlay">
     <p>You befriend Finlay, accepting his mother's payment. You talk, and your eyes water from the stench.</p>
+    <p>He smiles nervously, scratching the back of his neck, trying not to offend you with his odor. Yet, you see a flicker of gratitude in his eyes.</p>
     <div class="choices">
       <button class="btn" data-go="years">Skip ahead a few years</button>
       <button class="btn secondary" data-go="intro">Return to start</button>
@@ -94,8 +139,9 @@
 
   <!-- Years -->
   <section id="years" class="node">
-    <p>Years pass. You live with Finlay. The house smells of the bog.</p>
-    <p>You spray deodorant every morning, maintaining a fragile peace.</p>
+    <img class="story-image" src="https://cdn.pixabay.com/photo/2018/01/20/09/03/home-3096961_1280.jpg" alt="Years later">
+    <p>Years pass. You live with Finlay. The house smells of the bog, a reminder of his past accident. You spray deodorant every morning, maintaining a fragile peace.</p>
+    <p>Finlay hums quietly in the corner, unaware of how the scent still lingers. You sigh, eyes watering, but a strange fondness has grown between you.</p>
     <div class="choices">
       <button class="btn" data-go="accept">Accept your fate</button>
       <button class="btn" data-go="escape">Run away</button>
@@ -104,7 +150,8 @@
 
   <!-- Accept -->
   <section id="accept" class="node">
-    <p>You accept your fate and continue your life with Finlay, spraying deodorant daily.</p>
+    <img class="story-image" src="https://cdn.pixabay.com/photo/2017/02/01/21/45/morning-2031527_1280.jpg" alt="Accepting fate">
+    <p>You accept your fate and continue your life with Finlay, spraying deodorant daily. A quiet companionship blooms, punctuated by the faint bog smell and shared routines.</p>
     <div class="choices">
       <button class="btn secondary" data-go="intro">Restart</button>
     </div>
@@ -112,7 +159,8 @@
 
   <!-- Escape -->
   <section id="escape" class="node">
-    <p>You run away, driving into a rainbow, singing along to pop songs. Freedom!</p>
+    <img class="story-image" src="https://cdn.pixabay.com/photo/2016/11/29/03/35/rainbow-1867930_1280.jpg" alt="Escaping">
+    <p>You run away, driving into a rainbow, singing along to pop songs. Freedom rushes through you, colors flashing across your vision as the bog fades behind.</p>
     <div class="choices">
       <button class="btn secondary" data-go="intro">Restart</button>
     </div>
@@ -127,9 +175,9 @@
   const buttonAudio = document.getElementById('buttonAudio');
   const mist = document.getElementById('mist');
 
-  // Start background audio after first user click
+  // Enable background audio after first click
   window.addEventListener('click', function enableAudio() {
-    if (bgAudio.paused) { bgAudio.volume = 0.3; bgAudio.play().catch(()=>{}); }
+    if(bgAudio.paused){ bgAudio.volume=0.3; bgAudio.play().catch(()=>{});}
     window.removeEventListener('click', enableAudio);
   }, {once:true});
 
@@ -140,15 +188,19 @@
     const node = document.getElementById(id);
     node.classList.add('active');
 
-    // Animate each paragraph using GSAP
+    // Animate paragraphs
     const lines = node.querySelectorAll('p');
     gsap.fromTo(lines, {y:20, autoAlpha:0}, {y:0, autoAlpha:1, duration:0.6, stagger:0.1, ease:'power2.out'});
 
-    // Check for whisper elements
+    // Animate images
+    const img = node.querySelector('.story-image');
+    if(img){ img.classList.remove('visible'); setTimeout(()=>img.classList.add('visible'), 50); }
+
+    // Adjust mist based on whispers
     const whispers = node.querySelectorAll('.whisper');
-    if (whispers.length>0){
+    if(whispers.length>0){
       playSound(whisperAudio);
-      gsap.to(mist,{opacity:0.78, duration:0.5, filter:'hue-rotate(15deg) blur(10px) contrast(1.05)'});
+      gsap.to(mist,{opacity:0.78, duration:0.5, filter:'hue-rotate(30deg) blur(12px) contrast(1.1)'});
     } else {
       gsap.to(mist,{opacity:0.55, duration:0.5, filter:'hue-rotate(0deg) blur(8px) contrast(1)'});
     }
@@ -166,16 +218,16 @@
   // Initial active node
   show('intro');
 
-  // Mist drift + hue animation
+  // Continuous mist drift and hue animation
   gsap.to(mist,{duration:40, rotation:0.01, repeat:-1, ease:'none'});
   gsap.to(mist,{filter:'hue-rotate(22deg) blur(9px) contrast(1.02)', duration:45, repeat:-1, yoyo:true, ease:'sine.inOut'});
+
   window.addEventListener('mousemove', (e)=>{
     const px=(e.clientX/window.innerWidth-0.5)*10;
     const py=(e.clientY/window.innerHeight-0.5)*8;
     gsap.to(mist,{x:`${px}%`, y:`${py}%`, rotation:px*0.6, duration:0.8, ease:'power3.out'});
   });
 
-  // Scroll parallax for mist
   window.addEventListener('scroll', ()=>{
     const s = window.scrollY;
     const move = Math.min(40, s*0.06);
